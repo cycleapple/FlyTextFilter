@@ -27,7 +27,7 @@ public class TypesTab
             ImGui.OpenPopup("##ConfirmationDeleteAll");
         }
 
-        Util.SetHoverTooltip("Delete all type settings");
+        Util.SetHoverTooltip("刪除所有類型設定");
 
         DrawConfirmationDeleteAllPopup();
 
@@ -35,10 +35,10 @@ public class TypesTab
         if (Util.DrawButtonIcon(FontAwesomeIcon.SignOutAlt))
         {
             ImGui.SetClipboardText(ImportExport.ExportFlyTextSettings(Service.Configuration.FlyTextSettings));
-            Service.ConfigWindow.UpdateMessage("Copied to clipboard.", ImGuiColors.DalamudWhite);
+            Service.ConfigWindow.UpdateMessage("已複製到剪貼簿。", ImGuiColors.DalamudWhite);
         }
 
-        Util.SetHoverTooltip("Export all types");
+        Util.SetHoverTooltip("匯出所有類型");
 
         ImGui.SameLine();
         if (Util.DrawButtonIcon(FontAwesomeIcon.SignInAlt))
@@ -51,11 +51,11 @@ public class TypesTab
             catch (Exception ex)
             {
                 Service.PluginLog.Error(ex, "Failed to import settings from clipboard.");
-                Service.ConfigWindow.UpdateMessage("Failed to import settings from clipboard.", ImGuiColors.DalamudRed);
+                Service.ConfigWindow.UpdateMessage("無法從剪貼簿匯入設定。", ImGuiColors.DalamudRed);
             }
         }
 
-        Util.SetHoverTooltip("Import all types");
+        Util.SetHoverTooltip("匯入所有類型");
 
         this.DrawConfirmationImportAllPopup();
 
@@ -65,7 +65,7 @@ public class TypesTab
             ImGui.OpenPopup("##TypeHelp");
         }
 
-        Util.SetHoverTooltip("Help");
+        Util.SetHoverTooltip("說明");
 
         DrawTypeHelpPopup();
 
@@ -79,19 +79,19 @@ public class TypesTab
     {
         if (ImGui.BeginPopup("##TypeHelp"))
         {
-            ImGui.Text("The filtering is based on source and target, spread in 3 different groups:");
-            ImGui.Text("(Y)ou - Only from or to you.");
-            ImGui.Text("(P)arty - Only from or to your party members, excluding you.");
-            ImGui.Text("(O)thers - From or to everyone, excluding you and your party members.");
-            ImGui.Text("The main table can be a bit confusing at first. The top part (You - Party - Others) is the source," +
-                       "\nand every letter underneath refers to the target.");
-            ImGui.Text("For example:");
-            ImGui.Text("   - the column Y under You refers to the fly texts from you to you.");
-            ImGui.Text("   - the column P under You refers to the fly texts from you to party members.");
-            ImGui.Text("   - the column Y under Party refers to the fly texts from your party members to you.");
+            ImGui.Text("過濾依來源與目標判定，分為三組：");
+            ImGui.Text("你（Y）－僅來自你或傳至你。");
+            ImGui.Text("小隊（P）－僅來自小隊成員或傳至小隊成員，不包含你。");
+            ImGui.Text("其他人（O）－來自或傳至你與小隊成員以外的任何人。");
+            ImGui.Text("主表格一開始可能較難理解。上方（你－小隊－其他人）代表來源，" +
+                       "\n其下各字母代表目標。");
+            ImGui.Text("例如：");
+            ImGui.Text("   - 「你」下方的 Y 欄代表從你傳至你的浮動文字。");
+            ImGui.Text("   - 「你」下方的 P 欄代表從你傳至小隊成員的浮動文字。");
+            ImGui.Text("   - 「小隊」下方的 Y 欄代表從小隊成員傳至你的浮動文字。");
 
             ImGui.AlignTextToFramePadding();
-            ImGui.Text("If you are still confused, use this button in the table: ");
+            ImGui.Text("若仍不清楚，可使用表格中的此按鈕：");
 
             ImGui.SameLine();
             ImGui.PushFont(UiBuilder.IconFont);
@@ -106,18 +106,18 @@ public class TypesTab
     {
         if (ImGui.BeginPopup("##ConfirmationDeleteAll", ImGuiWindowFlags.NoMove))
         {
-            ImGui.Text("This will reset all your type settings contained in the table below.\nAre you sure you want to do this?");
+            ImGui.Text("這會重設下表中的所有類型設定。\n確定要繼續嗎？");
             ImGui.Separator();
-            if (ImGui.Button("Yes##ConfirmationDeleteAll"))
+            if (ImGui.Button("是##ConfirmationDeleteAll"))
             {
                 Service.Configuration.FlyTextSettings = new ConcurrentDictionary<FlyTextKind, FlyTextSetting>();
                 Service.Configuration.Save();
-                Service.ConfigWindow.UpdateMessage("Reset OK.", ImGuiColors.DalamudWhite);
+                Service.ConfigWindow.UpdateMessage("重設完成。", ImGuiColors.DalamudWhite);
                 ImGui.CloseCurrentPopup();
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("No##ConfirmationDeleteAll"))
+            if (ImGui.Button("否##ConfirmationDeleteAll"))
             {
                 ImGui.CloseCurrentPopup();
             }
@@ -130,19 +130,19 @@ public class TypesTab
     {
         if (ImGui.BeginPopup("##ConfirmationImportAll", ImGuiWindowFlags.NoMove))
         {
-            ImGui.Text($"This will replace all your type settings, the imported settings have {this.importedFlyTextSettings!.Count} type(s) set.\nAre you sure you want to do this?");
+            ImGui.Text($"這會取代所有類型設定；匯入資料包含 {this.importedFlyTextSettings!.Count} 種類型。\n確定要繼續嗎？");
             ImGui.Separator();
-            if (ImGui.Button("Yes##ConfirmationImportAll"))
+            if (ImGui.Button("是##ConfirmationImportAll"))
             {
                 Service.Configuration.FlyTextSettings = this.importedFlyTextSettings;
                 Service.Configuration.Save();
                 this.importedFlyTextSettings = null;
-                Service.ConfigWindow.UpdateMessage("Import OK.", ImGuiColors.DalamudWhite);
+                Service.ConfigWindow.UpdateMessage("匯入完成。", ImGuiColors.DalamudWhite);
                 ImGui.CloseCurrentPopup();
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("No##ConfirmationImportAll"))
+            if (ImGui.Button("否##ConfirmationImportAll"))
             {
                 this.importedFlyTextSettings = null;
                 ImGui.CloseCurrentPopup();

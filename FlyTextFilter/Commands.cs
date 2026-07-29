@@ -12,13 +12,13 @@ public class Commands
     {
         Service.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Open config",
+            HelpMessage = "開啟設定",
             ShowInHelp = true,
         });
 
         Service.CommandManager.AddHandler(CommandNameAlias, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Open config",
+            HelpMessage = "開啟設定",
             ShowInHelp = true,
         });
     }

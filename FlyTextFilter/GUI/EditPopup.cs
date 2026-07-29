@@ -11,25 +11,24 @@ public class EditPopup
         var hasChanged = false;
         if (ImGui.BeginPopup("##PopupEditKind"))
         {
-            ImGui.Text($"Editing {FlyTextKindData.GetAlias(flyTextKind)}");
-            ImGui.Text("Checked = filtered.");
-            Util.DrawHelp("For each source (You|Party|Others), 3 possible targets (Y|P|O)." +
-                          "\nTo filter the fly text coming from source to target, check the corresponding checkbox." +
-                          "\n Example: If from You to P is checked, it will filter all fly texts coming from you to" +
-                          "\n your party members.");
+            ImGui.Text($"正在編輯 {FlyTextKindData.GetAlias(flyTextKind)}");
+            ImGui.Text("勾選＝過濾。");
+            Util.DrawHelp("每種來源（你／小隊／其他人）皆有三種可能的目標（你／小隊／其他人）。" +
+                          "\n若要過濾從某來源傳至某目標的浮動文字，請勾選對應項目。" +
+                          "\n例如：勾選「你」至「小隊」，將過濾所有從你送往小隊成員的浮動文字。");
 
-            hasChanged |= Util.CheckboxFlagAll("Filter all##CheckboxEdit", ref flyTextSetting);
+            hasChanged |= Util.CheckboxFlagAll("全部過濾##CheckboxEdit", ref flyTextSetting);
 
             if (ImGui.BeginTable("PopupEditTable", 2, ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.BordersInnerH | ImGuiTableFlags.SizingStretchProp))
             {
                 ImGui.TableNextColumn();
-                ImGui.Text("(From) Source");
+                ImGui.Text("（來自）來源");
                 ImGui.TableNextColumn();
-                ImGui.Text("(To) Target");
+                ImGui.Text("（傳至）目標");
 
-                hasChanged |= DrawPopupSetting("You", "##DrawPopupSettingSourceYou", ref flyTextSetting.SourceYou);
-                hasChanged |= DrawPopupSetting("Party", "##DrawPopupSettingSourceParty", ref flyTextSetting.SourceParty);
-                hasChanged |= DrawPopupSetting("Others", "##DrawPopupSettingSourceOthers", ref flyTextSetting.SourceOthers);
+                hasChanged |= DrawPopupSetting("你", "##DrawPopupSettingSourceYou", ref flyTextSetting.SourceYou);
+                hasChanged |= DrawPopupSetting("小隊", "##DrawPopupSettingSourceParty", ref flyTextSetting.SourceParty);
+                hasChanged |= DrawPopupSetting("其他人", "##DrawPopupSettingSourceOthers", ref flyTextSetting.SourceOthers);
 
                 ImGui.EndTable();
             }
@@ -48,9 +47,9 @@ public class EditPopup
         ImGui.TableNextColumn();
 
         var hasChanged = false;
-        hasChanged |= Util.CheckboxFlag("You" + id, ref flyTextTargets, FlyTextTargets.You);
-        hasChanged |= Util.CheckboxFlag("Party" + id, ref flyTextTargets, FlyTextTargets.Party);
-        hasChanged |= Util.CheckboxFlag("Others" + id, ref flyTextTargets, FlyTextTargets.Others);
+        hasChanged |= Util.CheckboxFlag("你" + id, ref flyTextTargets, FlyTextTargets.You);
+        hasChanged |= Util.CheckboxFlag("小隊" + id, ref flyTextTargets, FlyTextTargets.Party);
+        hasChanged |= Util.CheckboxFlag("其他人" + id, ref flyTextTargets, FlyTextTargets.Others);
 
         return hasChanged;
     }

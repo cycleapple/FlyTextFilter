@@ -14,20 +14,20 @@ public class LogTab
     {
         if (!Service.ConfigWindow.HasPassedTests)
         {
-            ImGui.Text("Tests failed, this tab has been disabled to protect your config." +
-                       "\nSee the Types tab for more information.");
+            ImGui.Text("測試失敗；為保護設定，已停用此分頁。" +
+                       "\n詳情請查看「類型」分頁。");
             return;
         }
 
-        ImGui.Checkbox("Log fly texts", ref Service.FlyTextHandler.ShouldLog);
+        ImGui.Checkbox("記錄浮動文字", ref Service.FlyTextHandler.ShouldLog);
 
-        Util.DrawHelp("Log all fly texts in the table below, including filtered ones." +
-                      "\nIf a fly text is not logged, please report it with steps to reproduce it." +
-                      "\nThis logging is turned off when restarting to avoid useless processing");
+        Util.DrawHelp("在下表記錄所有浮動文字，包括已過濾的項目。" +
+                      "\n若有浮動文字未被記錄，請附上重現步驟回報。" +
+                      "\n重新啟動時會關閉記錄，以避免不必要的處理。");
 
         ImGui.SameLine();
         ImGui.SetNextItemWidth(34.0f * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputInt("Max number of logs", ref Service.Configuration.NbOfLogs, 0))
+        if (ImGui.InputInt("最大紀錄筆數", ref Service.Configuration.NbOfLogs, 0))
         {
             if (Service.Configuration.NbOfLogs < 1)
             {
@@ -42,7 +42,7 @@ public class LogTab
         }
 
         ImGui.SameLine();
-        if (ImGui.Button("Clear"))
+        if (ImGui.Button("清除"))
         {
             Service.FlyTextHandler.Logs.Clear();
         }
@@ -80,7 +80,7 @@ public class LogTab
                     Service.FlyTextHandler.CreateFlyText(flyTextLog);
                 }
 
-                Util.SetHoverTooltip("Create this fly text on you");
+                Util.SetHoverTooltip("在你身上建立此浮動文字");
 
                 ImGui.TableNextColumn();
                 if (Util.CenterButtonIcon(FontAwesomeIcon.Edit))
@@ -88,17 +88,17 @@ public class LogTab
                     ImGui.OpenPopup("##PopupEditKind");
                 }
 
-                Util.SetHoverTooltip("Edit");
+                Util.SetHoverTooltip("編輯");
 
                 ImGui.TableNextColumn();
-                Util.CenterText(flyTextLog.WasFiltered ? "Yes" : "No");
+                Util.CenterText(flyTextLog.WasFiltered ? "是" : "否");
 
                 ImGui.TableNextColumn();
                 ImGui.AlignTextToFramePadding();
                 Util.CenterText(flyTextLog.SourceCategory + (flyTextLog.HasSourceBeenAdjusted ? " (?)" : string.Empty));
                 if (flyTextLog.HasSourceBeenAdjusted)
                 {
-                    Util.SetHoverTooltip("This fly text original source has been adjusted, see Misc tab for more info.");
+                    Util.SetHoverTooltip("此浮動文字的原始來源已調整；詳情請查看「其他」分頁。");
                 }
 
                 ImGui.TableNextColumn();
@@ -134,35 +134,33 @@ public class LogTab
         var headerColor = ImGui.ColorConvertFloat4ToU32(ImGui.GetStyle().Colors[(int)ImGuiCol.TableHeaderBg]);
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Type ");
+        Util.CenterText(" 類型 ");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Show (?)");
+        Util.CenterText(" 顯示（？）");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
-        Util.SetHoverTooltip("If you use Damage Info, the created fly text" +
-                             "\nmay not have the same color as it did.");
+        Util.SetHoverTooltip("若使用 Damage Info，建立的浮動文字顏色可能與原本不同。");
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Edit type ");
-        ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
-
-        ImGui.TableNextColumn();
-        Util.CenterText(" Filtered? ");
+        Util.CenterText(" 編輯類型 ");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Source ");
+        Util.CenterText(" 已過濾？ ");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Target ");
+        Util.CenterText(" 來源 ");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Value (?) ");
+        Util.CenterText(" 目標 ");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
-        Util.SetHoverTooltip("Usually contains the displayed value if there is one." +
-                             "\nIf there is no value, this represents an id and can be ignored");
+
+        ImGui.TableNextColumn();
+        Util.CenterText(" 數值（？） ");
+        ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
+        Util.SetHoverTooltip("通常是畫面顯示的數值；若沒有顯示數值，則代表 ID，可忽略。");
     }
 }

@@ -8,10 +8,10 @@ public class BlacklistTab
 
     public void Draw()
     {
-        ImGui.Text("Any entire match will filter the fly text (e.g. action name, status effect name, etc.).");
+        ImGui.Text("完整符合任一項目時即會過濾浮動文字（例如技能名稱、狀態效果名稱等）。");
 
         ImGui.InputText("##addToBlacklist", ref this.addToBlacklist, 100);
-        if (ImGui.Button("Add To Blacklist"))
+        if (ImGui.Button("加入黑名單"))
         {
             Service.Configuration.Blacklist.Add(this.addToBlacklist);
             Service.Configuration.Save();
@@ -24,7 +24,7 @@ public class BlacklistTab
 
         foreach (var blItem in Service.Configuration.Blacklist)
         {
-            if (ImGui.Button($"Remove##{blItem}"))
+            if (ImGui.Button($"移除##{blItem}"))
             {
                 Service.Configuration.Blacklist.Remove(blItem);
                 Service.Configuration.Save();
