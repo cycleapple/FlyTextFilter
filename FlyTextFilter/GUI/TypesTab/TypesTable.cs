@@ -49,7 +49,7 @@ public class TypesTable
                     Service.FlyTextHandler.CreateFlyText(flyTextKind, 2, 2);
                 }
 
-                Util.SetHoverTooltip("Create a fly text of this type on you");
+                Util.SetHoverTooltip("在自己身上顯示此類型的浮動文字");
 
                 Service.Configuration.FlyTextSettings.TryGetValue(flyTextKind, out var flyTextSetting);
                 flyTextSetting ??= new FlyTextSetting();
@@ -73,7 +73,7 @@ public class TypesTable
                     ImGui.OpenPopup("##PopupEditKind");
                 }
 
-                Util.SetHoverTooltip("Edit");
+                Util.SetHoverTooltip("編輯");
 
                 ImGui.SameLine();
                 if (Util.DrawButtonIcon(FontAwesomeIcon.SignOutAlt))
@@ -81,10 +81,10 @@ public class TypesTable
                     var flyTextSettingDic = new ConcurrentDictionary<FlyTextKind, FlyTextSetting>();
                     flyTextSettingDic.TryAdd(flyTextKind, flyTextSetting);
                     ImGui.SetClipboardText(ImportExport.ExportFlyTextSettings(flyTextSettingDic));
-                    Service.ConfigWindow.UpdateMessage("Copied to clipboard.", ImGuiColors.DalamudWhite);
+                    Service.ConfigWindow.UpdateMessage("已複製到剪貼簿。", ImGuiColors.DalamudWhite);
                 }
 
-                Util.SetHoverTooltip("Export single type");
+                Util.SetHoverTooltip("匯出單一類型");
 
                 ImGui.SameLine();
                 if (Util.DrawButtonIcon(FontAwesomeIcon.SignInAlt))
@@ -94,7 +94,7 @@ public class TypesTable
                         var importedFlyTextSettings = ImportExport.ImportFlyTextSettings(ImGui.GetClipboardText());
                         if (importedFlyTextSettings.Count > 1)
                         {
-                            Service.ConfigWindow.UpdateMessage("This import contains multiple settings.", ImGuiColors.DalamudRed);
+                            Service.ConfigWindow.UpdateMessage("匯入內容包含多組設定。", ImGuiColors.DalamudRed);
                         }
                         else
                         {
@@ -111,17 +111,17 @@ public class TypesTable
                             }
 
                             hasChanged = true;
-                            Service.ConfigWindow.UpdateMessage("Import OK.", ImGuiColors.DalamudWhite);
+                            Service.ConfigWindow.UpdateMessage("匯入完成。", ImGuiColors.DalamudWhite);
                         }
                     }
                     catch (Exception ex)
                     {
                         Service.PluginLog.Error(ex, "Failed to import setting from clipboard.");
-                        Service.ConfigWindow.UpdateMessage("Failed to import setting from clipboard.", ImGuiColors.DalamudRed);
+                        Service.ConfigWindow.UpdateMessage("無法從剪貼簿匯入設定。", ImGuiColors.DalamudRed);
                     }
                 }
 
-                Util.SetHoverTooltip("Import single type");
+                Util.SetHoverTooltip("匯入單一類型");
 
                 ImGui.SameLine();
                 ImGui.Dummy(new Vector2(-5.0f));
@@ -160,35 +160,34 @@ public class TypesTable
         var headerColor = ImGui.ColorConvertFloat4ToU32(ImGui.GetStyle().Colors[(int)ImGuiCol.TableHeaderBg]);
 
         ImGui.TableNextColumn();
-        Util.CenterText("Type", 2);
+        Util.CenterText("類型", 2);
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        Util.CenterText(" Show (?)", 2);
+        Util.CenterText(" 顯示（？）", 2);
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
-        Util.SetHoverTooltip("When possible, spawns two fly texts and two pop-up texts." +
-                             "\nThis will display all different styles for a type." +
-                             "\nSome types only support fly texts, therefore, only" +
-                             "\ntwo will appear.");
+        Util.SetHoverTooltip("若可行，會產生兩組浮動文字與兩組彈出文字，" +
+                             "\n以顯示此類型的所有不同樣式。" +
+                             "\n部分類型僅支援浮動文字，因此只會顯示兩組。");
 
         ImGui.TableNextColumn();
-        Util.CenterText("   All   ", 2);
-        ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
-
-        ImGui.TableNextColumn();
-        DrawTargetsHeader("You");
+        Util.CenterText("   全部   ", 2);
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        DrawTargetsHeader("Party");
+        DrawTargetsHeader("自己");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        DrawTargetsHeader("Others");
+        DrawTargetsHeader("小隊");
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
 
         ImGui.TableNextColumn();
-        Util.CenterText("Misc", 2);
+        DrawTargetsHeader("其他");
+        ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
+
+        ImGui.TableNextColumn();
+        Util.CenterText("其他", 2);
         ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, headerColor);
     }
 
@@ -198,13 +197,13 @@ public class TypesTable
         if (ImGui.BeginTable("##TargetsHeader", 3))
         {
             ImGui.TableNextColumn();
-            Util.CenterText("Y");
+            Util.CenterText("己");
 
             ImGui.TableNextColumn();
-            Util.CenterText("P");
+            Util.CenterText("隊");
 
             ImGui.TableNextColumn();
-            Util.CenterText("O");
+            Util.CenterText("他");
 
             ImGui.EndTable();
         }
