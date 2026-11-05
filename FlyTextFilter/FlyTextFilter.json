@@ -4,5 +4,5 @@
   "Punchline": "過濾與調整戰鬥浮動文字。",
   "Description": "依來源、目標與文字內容過濾浮動文字，並可調整位置、大小與傷害類型圖示。",
   "RepoUrl": "https://github.com/cycleapple/FlyTextFilter/tree/api13-tw",
-  "DalamudApiLevel": 13
+  "DalamudApiLevel": 14
 }
